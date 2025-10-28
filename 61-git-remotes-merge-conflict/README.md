@@ -24,6 +24,9 @@ si verifichi lo stato del repository con `git status`.
      (funzionalità presente su `feature`)
 //Bisogna aprire il file con code HelloWorld.java 
 //poi aggiustare le modifiche a mano, si può compilare per verificare il corretto funzionamento 
+//aggiungere il file allo status e fare il commit
+git add .\HelloWorld.java
+git commit --no-edit
 6. Si crei un nuovo repository nel proprio github personale
 7. Si aggiunga il nuovo repository creato come **remote** e si elenchino i remote
 //git remote add test https://github.com/Roccia2005/exercise61.git
