@@ -2,6 +2,7 @@ package it.unibo.exceptions.fakenetwork.impl;
 
 import it.unibo.exceptions.arithmetic.ArithmeticService;
 import it.unibo.exceptions.fakenetwork.api.NetworkComponent;
+import it.unibo.exceptions.fakenetwork.api.NetworkException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,9 +30,16 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
         /*
          * The probability should be in [0, 1[!
          */
-        this.failProbability = failProbability;
+        if(failProbability >= 0 && failProbability < 1){
+            this.failProbability = failProbability;
+        }else{
+            throw new IllegalArgumentException("The value of the fail probability does not exist");
+        }
+        
         randomGenerator = new Random(randomSeed);
     }
+
+
 
     /**
      * @param failProbability the probability that a network communication fails
@@ -55,8 +63,6 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
             commandQueue.add(data);
         } else {
             final var message = data + " is not a valid keyword (allowed: " + KEYWORDS + "), nor is a number";
-            System.out.println(message);
-            commandQueue.clear();
             /*
              * This method, in this point, should throw an IllegalStateException.
              * Its cause, however, is the previous NumberFormatException.
@@ -64,6 +70,7 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
              *
              * The previous exceptions must be set as the cause of the new exception
              */
+            throw new IllegalArgumentException(message, exceptionWhenParsedAsNumber);
         }
     }
 
@@ -77,9 +84,9 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
         }
     }
 
-    private void accessTheNetwork(final String message) throws IOException {
+    private void accessTheNetwork(final String message) throws NetworkException {
         if (randomGenerator.nextDouble() < failProbability) {
-            throw new IOException("Generic I/O error");
+            throw new NetworkException("Generic I/O error");
         }
     }
 
