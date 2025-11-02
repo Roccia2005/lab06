@@ -12,26 +12,26 @@ si verifichi lo stato del repository con `git status`.
 
 1. Si cloni localmente il repository
 2. Ci si assicuri di avere localmente entrambi i branch remoti
-//git branch --all
+->git branch --all
 3. Si faccia il merge di `feature` dentro `master`, ossia: si posizioni la `HEAD` su `master`
    e da qui si esegua il merge di `feature`
-//git merge origin/feature
+->git merge origin/feature
 4. Si noti che viene generato un **merge conflict**!
 5. Si risolva il merge conflict come segue:
    - Il programma Java risultante deve stampare sia il numero di processori disponibili
      (funzionalità presente su `master`)
      che il nome dell'autore del file
      (funzionalità presente su `feature`)
-//Bisogna aprire il file con code HelloWorld.java 
-//poi aggiustare le modifiche a mano, si può compilare per verificare il corretto funzionamento 
-//aggiungere il file allo status e fare il commit
-git add .\HelloWorld.java
-git commit --no-edit
+->Bisogna aprire il file con code HelloWorld.java 
+->poi aggiustare le modifiche a mano, si può compilare per verificare il corretto funzionamento 
+->aggiungere il file allo status e fare il commit
+->git add .\HelloWorld.java
+->git commit --no-edit
 6. Si crei un nuovo repository nel proprio github personale
 7. Si aggiunga il nuovo repository creato come **remote** e si elenchino i remote
-//git remote add test https://github.com/Roccia2005/exercise61.git
-//git remote -v
+->git remote add test https://github.com/Roccia2005/exercise61.git
+->git remote -v
 8. Si faccia push del branch `master` sul proprio repository
-//git push -u test master
+->git push -u test master
 9. Si setti il branch remoto `master` del nuovo repository come *upstream* per il proprio branch `master` locale
-//git branch --set-upstream-to=test/master  
+->git branch --set-upstream-to=test/master  
