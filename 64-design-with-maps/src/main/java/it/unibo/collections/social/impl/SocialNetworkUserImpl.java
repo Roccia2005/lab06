@@ -38,7 +38,8 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      *
      * think of what type of keys and values would best suit the requirements
      */
-
+    //Mappa che associa a ogni stringa (che rappresenta il gruppo) ad un Set (che rappresenta le persone che appartengono a questo grupppo)
+    private final Map<String, Set<U>> followedUsers = new HashMap<>();
     /*
      * [CONSTRUCTORS]
      *
@@ -50,6 +51,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      * - username
      * - age and every other necessary field
      */
+
     /**
      * Builds a user participating in a social network.
      *
@@ -64,12 +66,15 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      *            application
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
-        super(null, null, null, 0);
+        super(name, surname, user, userAge);
     }
 
     /*
      * 2) Define a further constructor where the age defaults to -1
      */
+    public SocialNetworkUserImpl(final String name, final String surname, final String user) {
+        super(name, surname, user, -1);
+    }
 
     /*
      * [METHODS]
@@ -78,7 +83,15 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
-        return false;
+        
+        if (this.followedUsers.get(circle) != null){
+            return this.followedUsers.get(circle).add(user);
+        }else{
+            final Set<U> follower = new HashSet<>();
+            follower.add(user);
+            this.followedUsers.put(circle,follower);
+            return true;
+        }
     }
 
     /**
@@ -88,11 +101,24 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+        if(!this.followedUsers.containsKey(groupName)){
+            return Collections.emptySet(); 
+        }else{
+            /* 
+            Collection<U> followedUsersInGroup= this.followedUsers.get(groupName);
+            cosi creerei una nuova etichetta che punta allo stesso set
+            SAREBBE QUINDI MODIFICABILE
+            */
+            return new HashSet<>(this.followedUsers.get(groupName));
+        }
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+        final Set<U> allUsers = new HashSet<>();
+        for (final Set<U> groupSet : this.followedUsers.values()) {
+            allUsers.addAll(groupSet);
+        }
+        return new ArrayList<>(allUsers);
     }
 }
